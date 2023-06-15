@@ -64,10 +64,10 @@ model Conversation {
 }
 
 model Message {
-  id      String   @id @default(auto()) @map("_id") @db.ObjectId
-  body    String?
-  image   String?
-  created DateTime @default(now())
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  body      String?
+  image     String?
+  createdAt DateTime @default(now())
 
   seenIds String[] @db.ObjectId
   seen    User[]   @relation("Seen", fields: [seenIds], references: [id])
