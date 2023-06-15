@@ -16,6 +16,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
 
   const handleClick = useCallback(() => {
     setIsLoading(true);
+
     axios
       .post("/api/conversations", {
         userId: data.id,
