@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     }
 
     if (isGroup) {
-      const newConversation = prisma?.conversation.create({
+      const newConversation = await prisma?.conversation.create({
         data: {
           name,
           isGroup,
