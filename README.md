@@ -101,3 +101,37 @@ uploadPreset là một khái niệm đặc thù của Cloudinary. Nó đại di�
 ![plot](./images/next-cloudinary-upload-preset.png)
 
 ![plot](./images/next-cloudinary-preview.png)
+
+## Zustand
+
+Zustand là một thư viện quản lý trạng thái dễ sử dụng cho ứng dụng React. Nó giúp bạn quản lý và chia sẻ dữ liệu trạng thái giữa các thành phần một cách đơn giản và linh hoạt. Với Zustand, bạn có thể tạo các store để lưu trữ trạng thái và sử dụng các hooks để truy cập và cập nhật trạng thái đó. Thay vì sử dụng các khái niệm phức tạp như Redux, Zustand cung cấp một cách tiếp cận gọn nhẹ và dễ hiểu hơn để quản lý trạng thái trong ứng dụng React của bạn.
+
+- useActive hook
+
+```
+import { create } from "zustand";
+
+interface ActiveListStore {
+  members: string[];
+  add: (id: string) => void;
+  remove: (id: string) => void;
+  set: (ids: string[]) => void;
+}
+
+const useActiveList = create<ActiveListStore>((set) => ({
+  members: [],
+  add: (id) => set((state) => ({ members: [...state.members, id] })),
+  remove: (id) =>
+    set((state) => ({
+      members: state.members.filter((memberId) => memberId !== id),
+    })),
+  set: (ids) => set({ members: ids }),
+}));
+
+export default useActiveList;
+```
+
+- create<ActiveListStore>((set) => ({...})): Hàm create nhận vào một callback function nhận vào một hàm set. Callback này được sử dụng để cung cấp các hàm để thay đổi trạng thái của store.
+- Callback function này trả về một object đại diện cho trạng thái ban đầu của store và các hàm để thay đổi trạng thái.
+- Trong trường hợp này, trạng thái ban đầu của store (members) được đặt là một mảng rỗng.
+  Các hàm add, remove, và set sử dụng hàm set để cập nhật trạng thái của store dựa trên trạng thái hiện tại.
