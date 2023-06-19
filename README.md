@@ -38,6 +38,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Prisma
 
+- Setup Prisma in NextJS app
+
 ```
 import { PrismaClient } from "@prisma/client";
 
@@ -50,4 +52,15 @@ const client = globalThis.prisma || new PrismaClient();
 if (process.env.NODE_ENV !== "production") globalThis.prisma = client;
 
 export default client;
+```
+
+- Sample Prisma Schema Model
+
+```
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  email     String   @unique
+  name      String?
+}
 ```
