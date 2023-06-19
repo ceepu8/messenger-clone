@@ -20,6 +20,18 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Used Technologies
 
+- TypeScript
+- ReactJS - NextJS v.13 (js framework)
+- MongoDB (database)
+- Prisma (connection with database)
+- Zustand (state management)
+- Pusher - pusherjs (real-time)
+- next-cloudinary (image storage)
+- Tailwind CSS/ react-icons/ react-hot-toast - react-select - react-spinners (stylings)
+
+- clsx - lodash - date-fns
+- bcrypt
+
 ## Deploy
 
 - [Smoky Messenger Clone](https://smoky-messenger-clone.vercel.app/)
