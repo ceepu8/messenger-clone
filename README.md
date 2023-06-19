@@ -38,7 +38,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 ## Prisma
 
-- Setup Prisma in NextJS app
+- Setup Prisma in NextJS app (/libs/prismadb.ts)
 
 ```
 import { PrismaClient } from "@prisma/client";
@@ -54,9 +54,18 @@ if (process.env.NODE_ENV !== "production") globalThis.prisma = client;
 export default client;
 ```
 
-- Sample Prisma Schema Model
+- Sample Prisma Schema Model (/prisma/schema.prisma)
 
 ```
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
 model User {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
@@ -64,3 +73,26 @@ model User {
   name      String?
 }
 ```
+
+## Next Cloudinary
+
+```
+import { CldUploadButton } from "next-cloudinary";
+
+    <CldUploadButton
+        options={{ maxFiles: 1 }}
+        onUpload={handleUpload}
+        //
+        uploadPreset="zw2rml5a"
+    >
+         <Button disabled={isLoading} secondary type="button">
+           Change
+         </Button>
+    </CldUploadButton>
+```
+
+uploadPreset là một khái niệm đặc thù của Cloudinary. Nó đại diện cho một tập hợp các thiết lập tải lên được định trước mà bạn có thể tạo và cấu hình trong tài khoản Cloudinary của bạn. Upload preset cho phép bạn xác định và tái sử dụng một tập hợp nhất quán các tùy chọn cho việc tải lên các tệp tin khác nhau, giúp đơn giản hóa quy trình chỉ định cài đặt tải lên mỗi khi bạn tải lên một tệp tin.
+
+![plot](./images/next-cloudinary-upload-preset.png)
+
+![plot](./images/next-cloudinary-preview.png)
