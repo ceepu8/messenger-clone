@@ -79,10 +79,15 @@ model User {
 ```
 import { CldUploadButton } from "next-cloudinary";
 
+
+    const handleUpload = (result: any) => {
+        // image URL: result?.info?.secure_url
+        // logic code...
+    };
+
     <CldUploadButton
         options={{ maxFiles: 1 }}
         onUpload={handleUpload}
-        //
         uploadPreset="zw2rml5a"
     >
          <Button disabled={isLoading} secondary type="button">
