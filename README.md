@@ -40,7 +40,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 - Setup Prisma in NextJS app (/libs/prismadb.ts)
 
-```
+```javascript
 import { PrismaClient } from "@prisma/client";
 
 declare global {
@@ -56,7 +56,7 @@ export default client;
 
 - Sample Prisma Schema Model (/prisma/schema.prisma)
 
-```
+```javascript
 generator client {
   provider = "prisma-client-js"
 }
@@ -76,24 +76,22 @@ model User {
 
 ## Next Cloudinary
 
-```
+```javascript
 import { CldUploadButton } from "next-cloudinary";
+const handleUpload = (result: any) => {
+  // image URL: result?.info?.secure_url
+  // logic code...
+};
 
-
-    const handleUpload = (result: any) => {
-        // image URL: result?.info?.secure_url
-        // logic code...
-    };
-
-    <CldUploadButton
-        options={{ maxFiles: 1 }}
-        onUpload={handleUpload}
-        uploadPreset="zw2rml5a"
-    >
-         <Button disabled={isLoading} secondary type="button">
-           Change
-         </Button>
-    </CldUploadButton>
+<CldUploadButton
+  options={{ maxFiles: 1 }}
+  onUpload={handleUpload}
+  uploadPreset="zw2rml5a"
+>
+  <Button disabled={isLoading} secondary type="button">
+    Change
+  </Button>
+</CldUploadButton>;
 ```
 
 uploadPreset là một khái niệm đặc thù của Cloudinary. Nó đại diện cho một tập hợp các thiết lập tải lên được định trước mà bạn có thể tạo và cấu hình trong tài khoản Cloudinary của bạn. Upload preset cho phép bạn xác định và tái sử dụng một tập hợp nhất quán các tùy chọn cho việc tải lên các tệp tin khác nhau, giúp đơn giản hóa quy trình chỉ định cài đặt tải lên mỗi khi bạn tải lên một tệp tin.
@@ -108,7 +106,7 @@ Zustand là một thư viện quản lý trạng thái dễ sử dụng cho ứn
 
 - useActive hook
 
-```
+```javascript
 import { create } from "zustand";
 
 interface ActiveListStore {
@@ -118,15 +116,18 @@ interface ActiveListStore {
   set: (ids: string[]) => void;
 }
 
-const useActiveList = create<ActiveListStore>((set) => ({
-  members: [],
-  add: (id) => set((state) => ({ members: [...state.members, id] })),
-  remove: (id) =>
-    set((state) => ({
-      members: state.members.filter((memberId) => memberId !== id),
-    })),
-  set: (ids) => set({ members: ids }),
-}));
+const useActiveList =
+  create <
+  ActiveListStore >
+  ((set) => ({
+    members: [],
+    add: (id) => set((state) => ({ members: [...state.members, id] })),
+    remove: (id) =>
+      set((state) => ({
+        members: state.members.filter((memberId) => memberId !== id),
+      })),
+    set: (ids) => set({ members: ids }),
+  }));
 
 export default useActiveList;
 ```
@@ -136,6 +137,14 @@ export default useActiveList;
 - Trong trường hợp này, trạng thái ban đầu của store (members) được đặt là một mảng rỗng.
   Các hàm add, remove, và set sử dụng hàm set để cập nhật trạng thái của store dựa trên trạng thái hiện tại.
 
+| Yếu tố          | Zustand                                     | Redux Toolkit                               |
+| --------------- | ------------------------------------------- | ------------------------------------------- |
+| Kích thước      | Nhỏ gọn, ít boilerplate code                | Có thể đòi hỏi nhiều cấu hình và cú pháp    |
+| Cú pháp         | Đơn giản, sử dụng hooks                     | Sử dụng reducers, actions, thunks           |
+| Cấu trúc        | Tự định nghĩa store và hooks                | Sử dụng reducers, actions, thunks           |
+| Cộng đồng       | Có cộng đồng nhưng không phổ biến như Redux | Có cộng đồng lớn, phổ biến, tài liệu đầy đủ |
+| Quy mô ứng dụng | Thích hợp cho ứng dụng nhỏ và đơn giản      | Thích hợp cho ứng dụng lớn và phức tạp      |
+
 ## Pusher
 
 - Explanation:
@@ -144,7 +153,7 @@ Pusher là một dịch vụ và API đám mây cho phép giao tiếp thời gia
 
 - Setup:
 
-```
+```javascript
 import PusherServer from "pusher";
 import PusherClient from "pusher-js";
 
@@ -173,8 +182,8 @@ export const pusherClient = new PusherClient(
 
   - Trigger (pusherServer)
 
-    ```
-        pusher.trigger('chat', 'new-message', 'Hello, world!');
+    ```javascript
+    pusher.trigger("chat", "new-message", "Hello, world!");
     ```
 
     - Trong đó:
@@ -184,24 +193,24 @@ export const pusherClient = new PusherClient(
       - data là dữ liệu mà bạn muốn gửi kèm theo.
 
     - Example:
-      ```
-          pusherServer.trigger(conversationId, "messages:new", newMessage);
+      ```javascript
+      pusherServer.trigger(conversationId, "messages:new", newMessage);
       ```
 
   - Subsribe - Bind (pusherClient)
 
-    ```
-        const channel = pusher.subscribe('chat');
+    ```javascript
+    const channel = pusher.subscribe("chat");
 
-        channel.bind('new-message', function(data) {
-            // Xử lý dữ liệu khi có tin nhắn mới
-        });
+    channel.bind("new-message", function (data) {
+      // Xử lý dữ liệu khi có tin nhắn mới
+    });
     ```
 
     Example:
 
-          ```
-              useEffect(() => {
+            ```javascript
+            useEffect(() => {
                   pusherClient.subscribe(conversationId);
                   bottomRef?.current?.scrollIntoView();
 
@@ -239,5 +248,5 @@ export const pusherClient = new PusherClient(
                   pusherClient.unbind("messages:new", messageHandler);
                   pusherClient.unbind("message:update", updateMessageHandler);
                   };
-              }, [conversationId]);
-          ```
+            }, [conversationId]);
+            ```
