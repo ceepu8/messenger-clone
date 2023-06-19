@@ -21,12 +21,12 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 ## Used Technologies
 
 - TypeScript
-- ReactJS - NextJS v.13 (js framework)
+- ReactJS - NextJS v.13 (js framework) ⭕
 - MongoDB (database)
-- Prisma (connection with database)
-- Zustand (state management)
-- Pusher - pusherjs (real-time)
-- next-cloudinary (image storage)
+- Prisma (connection with database) ⭕
+- Zustand (state management) ⭕
+- Pusher - pusherjs (real-time) ⭕
+- next-cloudinary (image storage) ⭕
 - Tailwind CSS/ react-icons/ react-hot-toast - react-select - react-spinners (stylings)
 
 - clsx - lodash - date-fns
@@ -135,3 +135,109 @@ export default useActiveList;
 - Callback function này trả về một object đại diện cho trạng thái ban đầu của store và các hàm để thay đổi trạng thái.
 - Trong trường hợp này, trạng thái ban đầu của store (members) được đặt là một mảng rỗng.
   Các hàm add, remove, và set sử dụng hàm set để cập nhật trạng thái của store dựa trên trạng thái hiện tại.
+
+## Pusher
+
+- Explanation:
+
+Pusher là một dịch vụ và API đám mây cho phép giao tiếp thời gian thực trong các ứng dụng web và di động. Nó cung cấp các công cụ và cơ sở hạ tầng để đồng bộ dữ liệu, gửi tin nhắn và thông báo ngay lập tức giữa các thiết bị và máy chủ.
+
+- Setup:
+
+```
+import PusherServer from "pusher";
+import PusherClient from "pusher-js";
+
+export const pusherServer = new PusherServer({
+  appId: process.env.PUSHER_APP_ID!,
+  key: process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
+  secret: process.env.PUSHER_APP_SECRET!,
+  cluster: "ap1",
+  useTLS: true,
+});
+
+export const pusherClient = new PusherClient(
+  process.env.NEXT_PUBLIC_PUSHER_APP_KEY!,
+  {
+    channelAuthorization: {
+      endpoint: "/api/pusher/auth",
+      transport: "ajax",
+    },
+    cluster: "ap1",
+  }
+);
+
+```
+
+- Các lệnh cơ bản
+
+  - Trigger (pusherServer)
+
+    ```
+        pusher.trigger('chat', 'new-message', 'Hello, world!');
+    ```
+
+    - Trong đó:
+
+      - channelName là tên của kênh mà bạn muốn gửi tin nhắn tới.
+      - eventName là tên của sự kiện bạn muốn gửi.
+      - data là dữ liệu mà bạn muốn gửi kèm theo.
+
+    - Example:
+      ```
+          pusherServer.trigger(conversationId, "messages:new", newMessage);
+      ```
+
+  - Subsribe - Bind (pusherClient)
+
+    ```
+        const channel = pusher.subscribe('chat');
+
+        channel.bind('new-message', function(data) {
+            // Xử lý dữ liệu khi có tin nhắn mới
+        });
+    ```
+
+    Example:
+
+          ```
+              useEffect(() => {
+                  pusherClient.subscribe(conversationId);
+                  bottomRef?.current?.scrollIntoView();
+
+                  const messageHandler = (message: FullMessageType) => {
+                  axios.post(`/api/conversations/${conversationId}/seen`);
+
+                  setMessages((current) => {
+                      if (find(current, { id: message.id })) {
+                      return current;
+                      }
+
+                      return [...current, message];
+                  });
+
+                  bottomRef?.current?.scrollIntoView();
+                  };
+
+                  const updateMessageHandler = (newMessage: FullMessageType) => {
+                  setMessages((current) =>
+                      current.map((currentMessage) => {
+                      if (currentMessage.id === newMessage.id) {
+                          return newMessage;
+                      }
+
+                      return currentMessage;
+                      })
+                  );
+                  };
+
+                  pusherClient.bind("messages:new", messageHandler);
+                  pusherClient.bind("message:update", updateMessageHandler);
+
+                  return () => {
+                  pusherClient.unsubscribe(conversationId);
+                  pusherClient.unbind("messages:new", messageHandler);
+                  pusherClient.unbind("message:update", updateMessageHandler);
+                  };
+              }, [conversationId]);
+          ```
