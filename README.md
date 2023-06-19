@@ -250,3 +250,13 @@ export const pusherClient = new PusherClient(
                   };
             }, [conversationId]);
             ```
+
+| Yếu tố             | Pusher                                                      | Socket.io                                                                 |
+| ------------------ | ----------------------------------------------------------- | ------------------------------------------------------------------------- |
+| Kiến trúc          | Cung cấp hệ thống thông báo thời gian thực dựa trên sự kiện | Thư viện mã nguồn mở cho việc tạo và quản lý kết nối WebSocket            |
+| Đơn giản sử dụng   | Dễ sử dụng và có giao diện phức tạp ít hơn                  | Có giao diện phức tạp hơn và yêu cầu cấu hình chi tiết hơn                |
+| Phân phối          | Dựa trên đám mây (cloud-based) và quản lý phần lớn cho bạn  | Có thể tự triển khai trên máy chủ của bạn hoặc sử dụng dịch vụ bên thứ ba |
+| Hỗ trợ trình duyệt | Hỗ trợ tốt trên nhiều trình duyệt                           | Hỗ trợ tốt trên nhiều trình duyệt                                         |
+| Cộng đồng          | Có cộng đồng lớn và nhiều tài liệu hỗ trợ                   | Có cộng đồng lớn và nhiều tài liệu hỗ trợ                                 |
+| Tính năng          | Cung cấp các tính năng như kênh và phân biệt quyền          | Cung cấp các tính năng như sự kiện và phân biệt quyền                     |
+| Phí                | Có phiên bản miễn phí và các gói trả phí                    | Miễn phí và mã nguồn mở                                                   |
