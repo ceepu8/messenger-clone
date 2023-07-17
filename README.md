@@ -260,3 +260,4 @@ export const pusherClient = new PusherClient(
 | Cộng đồng          | Có cộng đồng lớn và nhiều tài liệu hỗ trợ                   | Có cộng đồng lớn và nhiều tài liệu hỗ trợ                                 |
 | Tính năng          | Cung cấp các tính năng như kênh và phân biệt quyền          | Cung cấp các tính năng như sự kiện và phân biệt quyền                     |
 | Phí                | Có phiên bản miễn phí và các gói trả phí                    | Miễn phí và mã nguồn mở                                                   |
+..
