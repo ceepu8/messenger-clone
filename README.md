@@ -2,6 +2,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Code along this video:
 https://www.youtube.com/watch?v=PGPGcKBpAk8&t=1s - Code with Antonio
+many thanks to Antonio!
 
 ## Getting Started
 
